@@ -1,5 +1,86 @@
 <?php
 
+use App\Post;
+use Illuminate\Http\Request;
+/*
+|--------------------------------------------------------------------------
+| ELOQUENT
+|--------------------------------------------------------------------------
+*/
+Route::get('/findAll', function(){
+    $posts = Post::all();
+
+    foreach ($posts as $post){
+        return $post->title;
+    }
+});
+
+Route::get('/find', function(Request $request){
+    $id = $request->input('id');
+    $post = Post::findOrFail($id);
+    return $post->title;
+});
+
+Route::get('/insert', function(){
+    $posts = new Post;
+    $posts->title = 'New Eloquent title insert';
+    $posts->content = 'New Eloquent content very cool!!!!';
+    $posts->save();
+});
+
+Route::get('/edit', function(){
+    $posts = Post::find(3);
+    $posts->title = 'Edited Eloquent';
+    $posts->content = 'Edit eloquent content!!!!';
+    $posts->save();
+});
+
+Route::get('/create', function(){
+    Post::create(['title'=>'the create method', 'content' => 'WOW it\'s creating!']);
+});
+
+Route::get('/update',function(){
+   Post::where('id', 3)->where('is_admin', 0)->update(['title' => 'NEW PHP TITLE', 'content' => 'Love my Laravel Instructor']);
+});
+
+Route::get('/delete', function(){
+    $post = Post::find(2);
+    $post->delete();
+});
+
+Route::get('/delete2', function(){
+    Post::destroy([4,5]);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| RAW SQL Queries
+|--------------------------------------------------------------------------
+*/
+//Route::get('/insert/{title}/{content}', function($title, $content){
+//    DB::insert('INSERT INTO posts(title, content) VALUES (?,?)', [$title,$content]);
+//});
+//
+//
+//Route::get('/read/{id}', function($id){
+//    $results = DB::select('SELECT * FROM posts WHERE id=?', [$id]);
+//
+//    return $results;
+//});
+//
+//Route::get('/update', function(){
+//    $updated = DB::update('UPDATE posts set title= ? WHERE id =?', ['hello world!!!', 1]);
+//    return $updated;
+//});
+//
+//Route::get('/delete', function(){
+//    $deleted = DB::delete('DELETE FROM posts where id=?', [1]);
+//    return $deleted;
+//});
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -39,6 +120,6 @@
 
 //Route::resource('post', 'PostController');
 
-Route::get('/contact', 'PostController@contact');
+//Route::get('/contact', 'PostController@contact');
 
-Route::get('post/{id}/{name}/{tel}', 'PostController@show_post');
+//Route::get('post/{id}/{name}/{tel}', 'PostController@show_post');
