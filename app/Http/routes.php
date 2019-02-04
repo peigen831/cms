@@ -52,6 +52,28 @@ Route::get('/delete2', function(){
     Post::destroy([4,5]);
 });
 
+Route::get('/softdelete', function(){
+    Post::find(12)->delete();
+});
+
+Route::get('/readsoftdelete', function(){
+//    $post = Post::find(7);
+//    return $post->title;
+
+//    $post = Post::withTrashed()->where('id', 7)->get();
+//    return $post;
+
+    $post = Post::onlyTrashed()->where('is_admin', 0)->get();
+    return $post;
+});
+
+Route::get('/restore', function(){
+    Post::onlyTrashed()->where('is_admin', 0)->restore();
+});
+
+Route::get('/forcedelete', function(){
+    Post::onlyTrashed()->where('is_admin', 0)->forcedelete();
+});
 
 /*
 |--------------------------------------------------------------------------
