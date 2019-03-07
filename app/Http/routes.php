@@ -1,7 +1,89 @@
 <?php
 
 use App\Post;
+use App\User;
+use App\Country;
+use App\Photo;
 use Illuminate\Http\Request;
+
+
+/*
+|--------------------------------------------------------------------------
+| Polymorphic Relations
+|--------------------------------------------------------------------------
+*/
+Route::get('/user/{id}/photos',function($id){
+    $user = User::find($id);
+    foreach ($user->photos as $photo){
+        echo $photo->path;
+    }
+});
+
+Route::get('/post/{id}/photos',function($id){
+    $post = Post::find($id);
+    foreach ($post->photos as $photo){
+        echo $photo->path . '<br>';
+    }
+});
+
+Route::get('/photo/{id}/user', function($id){
+    $photo = Photo::findOrFail($id);
+    return $photo->imageable;
+});
+
+/*
+|--------------------------------------------------------------------------
+| ELOQUENT RELATIONSHIP
+|--------------------------------------------------------------------------
+*/
+
+// One to one Relationship
+Route::get('/user/{id}/post', function($id){
+    return User::find($id)->post->content;
+});
+
+// Inverse Relation
+Route::get('/post/{id}/user',function($id){
+    return Post::find($id)->user->name;
+});
+
+// One to Many Relationship
+Route::get('/posts', function(){
+    $user = User::find(1);
+
+    $result = '';
+    foreach($user->posts as $post){
+        $result .= $post->title . '<br>';
+    }
+    return $result;
+});
+
+Route::get('/user/{id}/role', function($id){
+    $user = User::find($id);
+    foreach ($user->roles as $role){
+        echo $role->name . "<br>";
+    }
+});
+
+// Accessing the intermediate table / pivot
+Route::get('user/{id}/pivot', function($id){
+    $user = User::find($id);
+
+    foreach($user->roles as $role){
+        echo $role->pivot->created_at;
+    }
+});
+
+Route::get('user/{id}/country', function($id){
+    $country = Country::find($id);
+
+    foreach($country->posts as $post){
+        echo $post->title .'<br>';
+    }
+});
+
+
+
 /*
 |--------------------------------------------------------------------------
 | ELOQUENT
