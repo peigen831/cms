@@ -60,7 +60,6 @@ Route::get('/tag/{id}/post', function($id) {
 |--------------------------------------------------------------------------
 | ELOQUENT RELATIONSHIP
 |--------------------------------------------------------------------------
-*/
 
 // One to one Relationship
 Route::get('/user/{id}/post', function($id){
