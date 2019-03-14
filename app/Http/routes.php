@@ -8,53 +8,62 @@ use App\Video;
 use App\Tag;
 use Illuminate\Http\Request;
 
+/*
+|--------------------------------------------------------------------------
+| CRUD Application
+|--------------------------------------------------------------------------
+*/
+
+Route::resource('/posts', 'PostController');
+
 
 /*
 |--------------------------------------------------------------------------
 | Polymorphic Relations
 |--------------------------------------------------------------------------
 */
-Route::get('/user/{id}/photos',function($id){
-    $user = User::find($id);
-    foreach ($user->photos as $photo){
-        echo $photo->path;
-    }
-});
+//Route::get('/user/{id}/photos',function($id){
+//    $user = User::find($id);
+//    foreach ($user->photos as $photo){
+//        echo $photo->path;
+//    }
+//});
+//
+//Route::get('/post/{id}/photos',function($id){
+//    $post = Post::find($id);
+//    foreach ($post->photos as $photo){
+//        echo $photo->path . '<br>';
+//    }
+//});
+//
+//Route::get('/photo/{id}/user', function($id){
+//    $photo = Photo::findOrFail($id);
+//    return $photo->imageable;
+//});
+//
+//// Polymorphic Many to Many
+//Route::get('/post/{id}/tag',function($id){
+//    $post = Post::find($id);
+//    foreach ($post->tags as $tag) {
+//        echo $tag->name;
+//    }
+//});
+//
+//Route::get('/video/{id}/tag',function($id){
+//    $video = Video::find($id);
+//    foreach ($video->tags as $tag) {
+//        echo $tag->name;
+//    }
+//});
+//
+//
+//Route::get('/tag/{id}/post', function($id) {
+//    $tag = Tag::find($id);
+//    foreach ($tag->posts as $post) {
+//        echo $post->title;
+//    }
+//});
 
-Route::get('/post/{id}/photos',function($id){
-    $post = Post::find($id);
-    foreach ($post->photos as $photo){
-        echo $photo->path . '<br>';
-    }
-});
-
-Route::get('/photo/{id}/user', function($id){
-    $photo = Photo::findOrFail($id);
-    return $photo->imageable;
-});
-
-// Polymorphic Many to Many
-Route::get('/post/{id}/tag',function($id){
-    $post = Post::find($id);
-    foreach ($post->tags as $tag) {
-        echo $tag->name;
-    }
-});
-
-Route::get('/video/{id}/tag',function($id){
-    $video = Video::find($id);
-    foreach ($video->tags as $tag) {
-        echo $tag->name;
-    }
-});
-
-
-Route::get('/tag/{id}/post', function($id) {
-    $tag = Tag::find($id);
-    foreach ($tag->posts as $post) {
-        echo $post->title;
-    }
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -113,73 +122,73 @@ Route::get('user/{id}/country', function($id){
 | ELOQUENT
 |--------------------------------------------------------------------------
 */
-Route::get('/findAll', function(){
-    $posts = Post::all();
+//Route::get('/findAll', function(){
+//    $posts = Post::all();
+//
+//    foreach ($posts as $post){
+//        return $post->title;
+//    }
+//});
+//
+//Route::get('/find', function(Request $request){
+//    $id = $request->input('id');
+//    $post = Post::findOrFail($id);
+//    return $post->title;
+//});
+//
+//Route::get('/insert', function(){
+//    $posts = new Post;
+//    $posts->title = 'New Eloquent title insert';
+//    $posts->content = 'New Eloquent content very cool!!!!';
+//    $posts->save();
+//});
+//
+//Route::get('/edit', function(){
+//    $posts = Post::find(3);
+//    $posts->title = 'Edited Eloquent';
+//    $posts->content = 'Edit eloquent content!!!!';
+//    $posts->save();
+//});
+//
+//Route::get('/create', function(){
+//    Post::create(['title'=>'the create method', 'content' => 'WOW it\'s creating!']);
+//});
+//
+//Route::get('/update',function(){
+//   Post::where('id', 3)->where('is_admin', 0)->update(['title' => 'NEW PHP TITLE', 'content' => 'Love my Laravel Instructor']);
+//});
+//
+//Route::get('/delete', function(){
+//    $post = Post::find(2);
+//    $post->delete();
+//});
+//
+//Route::get('/delete2', function(){
+//    Post::destroy([4,5]);
+//});
+//
+//Route::get('/softdelete', function(){
+//    Post::find(12)->delete();
+//});
 
-    foreach ($posts as $post){
-        return $post->title;
-    }
-});
-
-Route::get('/find', function(Request $request){
-    $id = $request->input('id');
-    $post = Post::findOrFail($id);
-    return $post->title;
-});
-
-Route::get('/insert', function(){
-    $posts = new Post;
-    $posts->title = 'New Eloquent title insert';
-    $posts->content = 'New Eloquent content very cool!!!!';
-    $posts->save();
-});
-
-Route::get('/edit', function(){
-    $posts = Post::find(3);
-    $posts->title = 'Edited Eloquent';
-    $posts->content = 'Edit eloquent content!!!!';
-    $posts->save();
-});
-
-Route::get('/create', function(){
-    Post::create(['title'=>'the create method', 'content' => 'WOW it\'s creating!']);
-});
-
-Route::get('/update',function(){
-   Post::where('id', 3)->where('is_admin', 0)->update(['title' => 'NEW PHP TITLE', 'content' => 'Love my Laravel Instructor']);
-});
-
-Route::get('/delete', function(){
-    $post = Post::find(2);
-    $post->delete();
-});
-
-Route::get('/delete2', function(){
-    Post::destroy([4,5]);
-});
-
-Route::get('/softdelete', function(){
-    Post::find(12)->delete();
-});
-
-Route::get('/readsoftdelete', function(){
+//Route::get('/readsoftdelete', function(){
 //    $post = Post::find(7);
 //    return $post->title;
 
 //    $post = Post::withTrashed()->where('id', 7)->get();
 //    return $post;
 
-    $post = Post::onlyTrashed()->where('is_admin', 0)->get();
-    return $post;
-});
-
-Route::get('/restore', function(){
-    Post::onlyTrashed()->where('is_admin', 0)->restore();
-});
-
-Route::get('/forcedelete', function(){
-    Post::onlyTrashed()->where('is_admin', 0)->forcedelete();
-});
+//    $post = Post::onlyTrashed()->where('is_admin', 0)->get();
+//    return $post;
+//});
+//
+//Route::get('/restore', function(){
+//    Post::onlyTrashed()->where('is_admin', 0)->restore();
+//});
+//
+//Route::get('/forcedelete', function(){
+//    Post::onlyTrashed()->where('is_admin', 0)->forcedelete();
+//});
 
 /*
 |--------------------------------------------------------------------------

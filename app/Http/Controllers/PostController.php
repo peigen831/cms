@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Post;
 
 class PostController extends Controller
 {
@@ -13,9 +14,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($data)
+    public function index()
     {
-        echo "hello index: ". $data;
+        $posts = Post::all();
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -26,7 +28,8 @@ class PostController extends Controller
     public function create()
     {
         //
-        return  "this is the CREATE method";
+//        return  "this is the CREATE method";
+        return View('posts.create');
     }
 
     /**
@@ -37,9 +40,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        return "this is STORE";
+        $post = new Post;
+        $post->title =$request->title;
+        $post->save();
+        return redirect('/posts');
     }
+
 
     /**
      * Display the specified resource.
@@ -50,7 +56,7 @@ class PostController extends Controller
     public function show($id)
     {
         //
-        return "this is the show method yey!!!!".$id;
+        return "this is the show method yey11!!!!".$id;
     }
 
     /**
