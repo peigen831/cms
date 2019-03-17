@@ -56,7 +56,9 @@ class PostController extends Controller
     public function show($id)
     {
         //
-        return "this is the show method yey11!!!!".$id;
+//        return "this is the show method yey11!!!!".$id;
+        $post = Post::findOrFail($id);
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -67,8 +69,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
-        return "this is EDIT";
+        $post = Post::findOrFail($id);
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -80,8 +82,9 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        return "this is UPDATE";
+        $post = Post::findOrFail($id);
+        $post->update($request->all());
+        return redirect('posts');
     }
 
     /**
@@ -92,7 +95,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        return "this is DESTROY";
+//        return "this is DESTROY";
+        $post =Post::findOrFail($id);
+        $post->delete();
+        return redirect('posts');
     }
 
     public function contact(){
